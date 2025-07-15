@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: headerFragment (pageTitle='${pageTitle}')"></head>
+<body>
+<div class="form-container">
+    <h2>Expense Register</h2>
+    <p th:text="${message}"></p>
+    <form action="/expense/save" method="post">
+        <label for="productname">Product Name</label>
+        <input type="text" id="productname" name="productname" required />
+
+        <label for="description">Description</label>
+        <textarea id="description" name="description" required></textarea>
+
+        <label for="transactiondate">Transaction Date</label>
+        <input type="date" id="transactiondate" name="transactiondate" required />
+
+        <label for="quantity">Quantity</label>
+        <input type="number" id="quantity" name="quantity" min="1" required />
+
+        <label for="cost">Cost</label>
+        <input type="number" id="cost" name="cost" min="0" step="0.01" required />
+
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+<div class="row">
+    <h1>Employees</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Index</th>
+            <th>Product Name</th>
+            <th>EDescription</th>
+            <th>Unit Cost</th>
+            <th>Transaction Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="expense : ${expenses}">
+            <td th:text="${expenseStat.index + 1}"></td>
+            <td th:text="${expense.productName}"></td>
+            <td th:text="${expense.quantity}"></td>
+            <td th:text="${expense.cost}"></td>
+            <td th:text="${expense.transactionDate}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
