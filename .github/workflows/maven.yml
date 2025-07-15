@@ -73,6 +73,7 @@ jobs:
           pwd
           ls
           which ssh-keyscan
+          cat /home/runner/work/_temp/c7a41f1b-28b6-4690-a9aa-a64b536bd7e7.sh
           echo "go on"
           echo ${{ secrets.EC2_SSH_KEY }} > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
