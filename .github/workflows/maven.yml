@@ -75,10 +75,8 @@ jobs:
           ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
           
       - name: SSH and deploy Docker container
-        env:
-          EC2HOST: ${{ secrets.EC2_HOST }}
         run: |
-          ssh -i ~/.ssh/id_rsa ec2-user@"$EC2HOST" << 'EOF'
+          ssh -i ~/.ssh/id_rsa ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
           
             if [ "$(docker ps --filter "name=expensemanagementcontainer" --filter "status=running" --format "{{.Names}}")" = "expensemanagementcontainer" ]; then
               echo "Stopping container..."
