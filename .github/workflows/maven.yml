@@ -70,6 +70,10 @@ jobs:
       - name: Set up SSH key
         run: |
           mkdir -p ~/.ssh
+          pwd
+          ls
+          which ssh-keyscan
+          echo "go on"
           echo ${{ secrets.EC2_SSH_KEY }} > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
