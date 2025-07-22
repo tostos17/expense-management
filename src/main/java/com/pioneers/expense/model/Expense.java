@@ -79,4 +79,5 @@ public class Expense {
     public void setTransactionDate(LocalDate transactionDate) {
         this.transactionDate = transactionDate;
     }
+
 }

@@ -5,15 +5,15 @@
 <div class="form-container">
     <h2>Expense Register</h2>
     <p th:text="${message}"></p>
-    <form action="/expense/save" method="post">
+    <form action="/expense/save" id="expense-form" method="post">
         <label for="productname">Product Name</label>
-        <input type="text" id="productname" name="productname" required />
+        <input type="text" id="productname" name="productName" required />
 
         <label for="description">Description</label>
         <textarea id="description" name="description" required></textarea>
 
         <label for="transactiondate">Transaction Date</label>
-        <input type="date" id="transactiondate" name="transactiondate" required />
+        <input type="date" id="transactiondate" name="transactionDate" max="" required />
 
         <label for="quantity">Quantity</label>
         <input type="number" id="quantity" name="quantity" min="1" required />
@@ -26,14 +26,15 @@
 </div>
 
 <div class="row">
-    <h1>Employees</h1>
+    <h2>Expenses</h2>
 
     <table class="table">
         <thead>
         <tr>
             <th>Index</th>
             <th>Product Name</th>
-            <th>EDescription</th>
+            <th>Description</th>
+            <th>Quantity</th>
             <th>Unit Cost</th>
             <th>Transaction Date</th>
         </tr>
@@ -42,6 +43,7 @@
         <tr th:each="expense : ${expenses}">
             <td th:text="${expenseStat.index + 1}"></td>
             <td th:text="${expense.productName}"></td>
+            <td th:text="${expense.description}"></td>
             <td th:text="${expense.quantity}"></td>
             <td th:text="${expense.cost}"></td>
             <td th:text="${expense.transactionDate}"></td>
@@ -49,5 +51,42 @@
         </tbody>
     </table>
 </div>
+<script>
+    document.getElementById('expense-form').addEventListener('submit', function(e) {
+      e.preventDefault(); // Prevent default form submission
+
+      const formData = {
+        productName: this.productName.value,
+        description: this.description.value,
+        transactionDate: this.transactiondate.value,
+        quantity: this.quantity.value,
+        cost: this.cost.value
+      };
+
+      fetch('/expense/save', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      })
+      .then(response => response.text())
+      .then(data => {
+        console.log('Success:', data);
+        alert("Data Saved");
+        const myForm = document.getElementById('expense-form');
+            myForm.reset();
+        window.location.reload();
+      })
+      .catch(error => console.error('Error:', error));
+    });
+
+    const today = new Date();
+    const maxDate = today.toISOString().split("T")[0];
+
+    const dateInput = document.getElementById("transactiondate");
+    dateInput.setAttribute("max", maxDate);
+
+</script>
 </body>
 </html>
